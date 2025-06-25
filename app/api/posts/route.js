@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { PrismaClient } from '@prisma/client'
+
 
 import { writeFile } from 'fs/promises';
 import path from 'path';
@@ -7,7 +7,7 @@ import { mkdir } from 'fs/promises';
 
 
 
-
+import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 // GET: Fetch posts
