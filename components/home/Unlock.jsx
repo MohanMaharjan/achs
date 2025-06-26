@@ -163,7 +163,7 @@ const UnlockYourself = () => {
             viewport={{ once: true, margin: "-100px" }}
           >
             <Image
-              src="/images/unlock.jpg"
+              src="/images/unlock.JPG"
               alt="ACHS vibrant campus life"
               fill
               className="object-cover"
