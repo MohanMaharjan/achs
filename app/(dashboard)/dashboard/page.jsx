@@ -8,8 +8,8 @@ const videos = [
     channel: "Code With Me",
     views: "120K views",
     timestamp: "3 days ago",
-    thumbnail: "/video-thumbnail-1.jpg",
-    avatar: "/channel-avatar-1.jpg",
+    thumbnail: "",
+    avatar: "",
   },
   // Add more videos...
 ];
