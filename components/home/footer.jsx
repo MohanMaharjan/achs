@@ -9,55 +9,37 @@ const Footer = () => {
       type: 'text',
       content: {
         image: '/logo-small.webp',
-        title: 'Travel further with less.',
-        description: 'Effortless travel staples that let you carry less and experience more.'
+        title: 'Asian College of Higher Studies',
+        description: 'Providing quality education in the heart of Lalitpur.'
       }
     },
     {
       type: 'menu',
-      title: 'Shop',
+      title: 'Programs',
       links: [
-        { text: 'Travel Tops', href: '/collections/tops' },
-        { text: 'Travel Bottoms', href: '/collections/bottoms' },
-        { text: 'Bags', href: '/collections/travel-bags' },
-        { text: 'Gift Cards', href: '/products/gift-card' }
+        { text: 'B. Sc. CSIT', href: '/program?course=csit' },
+        { text: 'BCA', href: '/program?course=bca' },
+        { text: 'BBM', href: '/program?course=bbm' },
+        { text: 'BBS', href: '/program?course=bbs' }
       ]
     },
     {
       type: 'menu',
-      title: 'Explore',
+      title: 'Quick Links',
       links: [
-        { text: 'About', href: '/pages/about' },
-        { text: 'Story', href: '/pages/story' },
-        { text: 'Journal', href: '/blogs/journal' },
-        { text: 'Ambassadors & Affiliates', href: '/pages/affiliate-promotion' }
+        { text: 'About', href: '/about' },
+        { text: 'Life @ ACHS', href: '/life' },
+        { text: 'News and Events', href: '/news' },
       ]
     },
     {
-      type: 'menu',
-      title: 'Concierge',
-      links: [
-        { text: 'FAQ', href: '/pages/faq' },
-        { text: 'Customer Support', href: '/pages/contact-us' },
-        { text: 'Start a Return', href: 'https://western-rise.loopreturns.com/#/' },
-        { text: 'Privacy Policy', href: '/policies/privacy-policy' },
-        { text: 'Contact', href: '/pages/contact-us' }
-      ]
-    },
-    {
-      type: 'menu',
-      title: 'Account',
-      links: [
-        { text: 'Login', href: '/account/login' },
-        { text: 'Sign up', href: '/account/register' },
-        { text: 'Terms of Service', href: '/policies/terms-of-service' }
-      ]
-    },
-    {
-      type: 'newsletter',
-      title: 'Sign Up Now!',
-      description: 'Get exclusive discounts, plus travel hacks, packing tips and more.'
-    }
+  type: 'location',
+  title: 'Our Location',
+  address: 'Ekantakuna, Lalitpur, Nepal',
+  mapUrl: 'https://www.google.com/maps/place/Asian+College+of+Higher+Studies/@27.6728243,85.3080583,17z/data=!3m1!4b1!4m6!3m5!1s0x39eb19c155555555:0x9e8e3c29e0d9f3b4!8m2!3d27.6728243!4d85.3106332!16s%2Fg%2F11bw3y9q9y?entry=ttu',
+  // Add these parameters to make the marker pulse
+  mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.456239386958!2d85.3080583!3d27.6728243!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb19c155555555%3A0x9e8e3c29e0d9f3b4!2sAsian%20College%20of%20Higher%20Studies!5e0!3m2!1sen!2snp!4v1710000000000!5m2!1sen!2snp&output=embed&markers=color:red%7C27.6728243,85.3106332'
+}
   ]
 
   const socialLinks = [
@@ -110,7 +92,7 @@ const Footer = () => {
           transition={{ duration: 0.5 }}
         >
           {/* Footer Blocks */}
-          <div className="footer__block-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-8">
+          <div className="footer__block-list grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {footerBlocks.map((block, index) => (
               <motion.div
                 key={index}
@@ -154,28 +136,51 @@ const Footer = () => {
                   </div>
                 )}
 
-                {block.type === 'newsletter' && (
+                {block.type === 'location' && (
                   <div className="space-y-4">
                     <h4 className="text-lg font-medium">{block.title}</h4>
-                    <p className="text-gray-600">{block.description}</p>
-                    <form className="mt-4">
-                      <div className="flex items-center border border-gray-300 rounded-md overflow-hidden">
-                        <input
-                          type="email"
-                          placeholder="Your email"
-                          className="flex-grow px-4 py-2 focus:outline-none"
-                          required
-                        />
-                        <button 
-                          type="submit"
-                          className="bg-black text-white px-4 py-2 hover:bg-gray-800 transition-colors"
-                        >
-                          <svg width="5" height="8" viewBox="0 0 5 8" fill="none" stroke="currentColor" strokeWidth="1.5">
-                            <path d="m.75 7 3-3-3-3"/>
-                          </svg>
-                        </button>
-                      </div>
-                    </form>
+                    <p className="text-gray-600">{block.address}</p>
+                    <Link 
+                      href={block.mapUrl} 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block mt-2 text-blue-600 hover:text-blue-800 transition-colors"
+                    >
+                      View on Google Maps →
+                    </Link>
+                   <div className="mt-4 aspect-video bg-gray-200 rounded-md overflow-hidden relative">
+  <iframe 
+    src={block.mapEmbedUrl}
+    width="100%" 
+    height="100%" 
+    style={{ border: 0 }}
+    allowFullScreen
+    loading="lazy"
+    referrerPolicy="no-referrer-when-downgrade"
+    title="ACHS Location on Google Maps"
+  ></iframe>
+  {/* Add a ping animation overlay */}
+  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+    <motion.div
+      className="w-4 h-4 bg-red-500 rounded-full"
+      animate={{
+        scale: [1, 1.5, 1],
+        opacity: [0.8, 0]
+      }}
+      transition={{
+        duration: 2,
+        repeat: Infinity,
+        repeatType: "loop"
+      }}
+      style={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)'
+      }}
+    />
+  </div>
+</div>
                   </div>
                 )}
               </motion.div>
@@ -212,8 +217,6 @@ const Footer = () => {
                 </motion.li>
               ))}
             </ul>
-
-           
           </div>
 
           {/* Copyright */}
@@ -224,7 +227,7 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <p className="text-sm text-gray-500">© {new Date().getFullYear()} All Rights Reserved</p>
+            <p className="text-sm text-gray-500">© {new Date().getFullYear()} Asian College of Higher Studies. All Rights Reserved</p>
           </motion.div>
         </motion.div>
       </div>

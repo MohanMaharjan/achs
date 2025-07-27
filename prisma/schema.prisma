@@ -24,6 +24,7 @@ model User {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   posts       Post[]
+  departments Department[] @relation("UserDepartments")
 }
 
 model Role {
@@ -32,7 +33,7 @@ model Role {
   description String?
   permissions Permission[]
   users       User[]
-
+ 
 }
 
 model Permission {
@@ -40,6 +41,7 @@ model Permission {
   name        String   @unique
   description String?
   roles       Role[]
+
   
 }
 
@@ -59,3 +61,27 @@ model Post {
   authorId    Int
 }
 
+model Department {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  courses     Course[]
+  users       User[]    @relation("UserDepartments")
+}
+
+model Course {
+  id           Int       @id @default(autoincrement())
+  title        String
+  code         String    @unique
+  semester    Int?
+  year         Int?
+  Lecture      Int
+  Practical    Int
+  description  String?
+  syllabus     String?    // This line must exist and be optional
+  department   Department @relation(fields: [departmentId], references: [id])
+  departmentId Int
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}

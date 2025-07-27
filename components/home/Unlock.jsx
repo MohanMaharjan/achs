@@ -1,6 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const UnlockYourself = () => {
   // Animation variants
@@ -73,7 +74,8 @@ const UnlockYourself = () => {
             Your bachelor's journey at <span className="font-bold text-amber-400">ACHS</span> is more than education - it's a transformation into the leader of tomorrow.
           </motion.p>
 
-          <motion.div variants={itemVariants}>
+         <motion.div variants={itemVariants}>
+          <Link href="/about">
             <button className="px-8 py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0">
               Start Your Journey
               <motion.span 
@@ -87,7 +89,8 @@ const UnlockYourself = () => {
                 →
               </motion.span>
             </button>
-          </motion.div>
+          </Link>
+        </motion.div>
         </motion.div>
 
         {/* Content grid */}
@@ -198,19 +201,7 @@ const UnlockYourself = () => {
                 >
                   Where Great Careers Begin
                 </motion.p>
-                <button className="px-6 py-2.5 bg-white hover:bg-amber-50 text-slate-900 font-medium rounded-lg shadow-md transition-all flex items-center">
-                  Take Campus Tour
-                  <motion.span 
-                    className="ml-2 inline-block"
-                    animate={{ x: [0, 4, 0] }}
-                    transition={{ 
-                      duration: 1.5,
-                      repeat: Infinity 
-                    }}
-                  >
-                    →
-                  </motion.span>
-                </button>
+                
               </motion.div>
             </motion.div>
           </motion.div>
@@ -218,147 +209,156 @@ const UnlockYourself = () => {
 
         {/* Educational Journey Timeline */}
         <motion.div 
-          className="mt-24"
-          initial="hidden"
-          whileInView="visible"
-          variants={fadeIn}
-          viewport={{ once: true }}
-        >
-          <div className="text-center mb-12">
-            <h3 className="text-2xl font-semibold text-white mb-3">Your Academic Journey</h3>
-            <p className="text-slate-300 max-w-2xl mx-auto">A transformative path from foundation to career readiness</p>
-          </div>
+        className="mt-12 md:mt-24"
+        initial="hidden"
+        whileInView="visible"
+        variants={fadeIn}
+        viewport={{ once: true }}
+      >
+        <div className="text-center mb-8 md:mb-12 px-4">
+          <h3 className="text-3xl sm:text-2xl md:text-2xl font-semibold text-white mb-3 md:mb-3">
+            Your Academic Journey
+          </h3>
+          <p className="text-slate-300 max-w-2xl mx-auto text-lg sm:text-sm md:text-base">
+            A transformative path from foundation to career readiness
+          </p>
+        </div>
 
-          <div className="relative h-[400px]">
-            <svg 
-              className="w-full h-full" 
-              viewBox="0 0 1000 400" 
-              preserveAspectRatio="none"
-            >
-              {/* Timeline path */}
-              <motion.path
-                d="M50,200 Q250,50 450,200 Q650,350 850,200 L950,200"
-                stroke="rgba(255,255,255,0.1)"
-                strokeWidth="2"
-                fill="none"
-                initial={{ pathLength: 0 }}
-                whileInView={{ pathLength: 1 }}
-                transition={{ duration: 1.5 }}
-                viewport={{ once: true }}
-              />
-              
-              {/* Progress path */}
-              <motion.path
-                d="M50,200 Q250,50 450,200 Q650,350 850,200 L950,200"
-                stroke="url(#timelineGradient)"
-                strokeWidth="4"
-                fill="none"
-                strokeDasharray="8 4"
-                initial={{ pathLength: 0 }}
-                whileInView={{ pathLength: 1 }}
-                transition={{ duration: 2, delay: 0.3 }}
-                viewport={{ once: true }}
-              />
+        <div className="relative h-[300px] sm:h-[350px] md:h-[400px] px-4">
+          <svg 
+            className="w-full h-full" 
+            viewBox="0 0 1000 400" 
+            preserveAspectRatio="none"
+          >
+            {/* Timeline path */}
+            <motion.path
+              d="M50,200 Q250,50 450,200 Q650,350 850,200 L950,200"
+              stroke="rgba(255,255,255,0.1)"
+              strokeWidth="2"
+              fill="none"
+              initial={{ pathLength: 0 }}
+              whileInView={{ pathLength: 1 }}
+              transition={{ duration: 1.5 }}
+              viewport={{ once: true }}
+            />
+            
+            {/* Progress path */}
+            <motion.path
+              d="M50,200 Q250,50 450,200 Q650,350 850,200 L950,200"
+              stroke="url(#timelineGradient)"
+              strokeWidth="4"
+              fill="none"
+              strokeDasharray="8 4"
+              initial={{ pathLength: 0 }}
+              whileInView={{ pathLength: 1 }}
+              transition={{ duration: 2, delay: 0.3 }}
+              viewport={{ once: true }}
+            />
 
-              <defs>
-                <linearGradient id="timelineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#F59E0B" />
-                  <stop offset="100%" stopColor="#3B82F6" />
-                </linearGradient>
-              </defs>
+            <defs>
+              <linearGradient id="timelineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#F59E0B" />
+                <stop offset="100%" stopColor="#3B82F6" />
+              </linearGradient>
+            </defs>
 
-              {/* Milestones */}
-              {[
-                { x: 50, y: 200, icon: "📚", title: "Foundation", color: "amber" },
-                { x: 250, y: 50, icon: "🌐", title: "Exploration", color: "blue" },
-                { x: 450, y: 200, icon: "🔍", title: "Specialization", color: "amber" },
-                { x: 850, y: 200, icon: "🎓", title: "Graduation", color: "amber" }
-              ].map((milestone, index) => (
-                <g key={index} transform={`translate(${milestone.x},${milestone.y})`}>
-                  {/* Animated circle */}
-                  <motion.circle
-                    cx="0"
-                    cy="0"
-                    r="24"
-                    fill="white"
-                    stroke={`var(--${milestone.color}-500)`}
-                    strokeWidth="2"
-                    initial={{ scale: 0, opacity: 0 }}
-                    whileInView={{ 
-                      scale: 1, 
-                      opacity: 1,
-                      transition: { 
-                        delay: 0.5 + index * 0.2,
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 15
-                      }
-                    }}
-                    viewport={{ once: true }}
-                  />
-                  
-                  {/* Icon */}
-                  <text 
-                    x="0" 
-                    y="8" 
-                    textAnchor="middle" 
-                    fontSize="16"
-                    fill={`var(--${milestone.color}-500)`}
-                  >
-                    {milestone.icon}
-                  </text>
-                  
-                  {/* Title */}
-                  <text 
-                    x="0" 
-                    y="50" 
-                    textAnchor="middle" 
-                    fontSize="12" 
-                    fontWeight="bold"
-                    fill="white"
-                  >
-                    {milestone.title}
-                  </text>
-                </g>
-              ))}
-
-              {/* Animated YOU marker */}
-              <motion.g
-                initial={{ x: 0, y: 0 }}
-                animate={{
-                  x: [50, 250, 450, 850],
-                  y: [200, 50, 200, 200],
-                  transition: {
-                    duration: 8,
-                    repeat: Infinity,
-                    repeatType: "loop",
-                    ease: "easeInOut",
-                    times: [0, 0.33, 0.66, 1]
-                  }
-                }}
-              >
+            {/* Milestones - with larger text on mobile */}
+            {[
+              { x: 50, y: 200, icon: "📚", title: "Foundation", color: "amber" },
+              { x: 250, y: 50, icon: "🌐", title: "Exploration", color: "blue" },
+              { x: 450, y: 200, icon: "🔍", title: "Specialization", color: "amber" },
+              { x: 850, y: 200, icon: "🎓", title: "Graduation", color: "amber" }
+            ].map((milestone, index) => (
+              <g key={index} transform={`translate(${milestone.x},${milestone.y})`}>
+                {/* Animated circle - slightly larger on mobile */}
                 <motion.circle
                   cx="0"
                   cy="0"
-                  r="12"
-                  fill="#F59E0B"
-                  initial={{ scale: 0 }}
-                  animate={{ 
-                    scale: 1,
-                    transition: { delay: 1.5 }
+                  r="24"
+                  className="md:r-6"
+                  fill="white"
+                  stroke={`var(--${milestone.color}-500)`}
+                  strokeWidth="2"
+                  initial={{ scale: 0, opacity: 0 }}
+                  whileInView={{ 
+                    scale: 1, 
+                    opacity: 1,
+                    transition: { 
+                      delay: 0.5 + index * 0.2,
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 15
+                    }
                   }}
+                  viewport={{ once: true }}
                 />
+                
+                {/* Icon - larger on mobile */}
                 <text 
                   x="0" 
-                  y="4" 
+                  y="8" 
                   textAnchor="middle" 
-                  fontSize="10" 
-                  fill="white"
-                  fontWeight="bold"
+                  fontSize="20"
+                  className="md:text-base"
+                  fill={`var(--${milestone.color}-500)`}
                 >
-                  YOU
+                  {milestone.icon}
                 </text>
-              </motion.g>
+                
+                {/* Title - larger font on mobile */}
+                <text 
+                  x="0" 
+                  y="50" 
+                  textAnchor="middle" 
+                  fontSize="14" 
+                  className="text-lg leading-4 md:text-sm"
+                  fontWeight="bold"
+                  fill="white"
+                >
+                  {milestone.title}
+                </text>
+              </g>
+            ))}
+
+            {/* Animated YOU marker - larger on mobile */}
+            <motion.g
+              initial={{ x: 0, y: 0 }}
+              animate={{
+                x: [50, 250, 450, 850],
+                y: [200, 50, 200, 200],
+                transition: {
+                  duration: 8,
+                  repeat: Infinity,
+                  repeatType: "loop",
+                  ease: "easeInOut",
+                  times: [0, 0.33, 0.66, 1]
+                }
+              }}
+            >
+              <motion.circle
+                cx="0"
+                cy="0"
+                r="14"
+                className="md:r-3"
+                fill="#F59E0B"
+                initial={{ scale: 0 }}
+                animate={{ 
+                  scale: 1,
+                  transition: { delay: 1.5 }
+                }}
+              />
+              <text 
+                x="0" 
+                y="5" 
+                textAnchor="middle" 
+                fontSize="12" 
+                className="md:text-xs"
+                fill="white"
+                fontWeight="bold"
+              >
+                YOU
+              </text>
+            </motion.g>
             </svg>
           </div>
         </motion.div>
