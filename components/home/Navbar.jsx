@@ -41,19 +41,19 @@ const Navbar = () => {
         columns: [
           {
             title: "B. Sc. CSIT (Bachelor of Science in Computer Science and Information Technology)",
-            href:' /program?departmentId=1',
+            href:' /program/1',
             image:'/csit.jpg'
             
           },
           {
             title: "BCA (Bachelor of Computer Application)",
-            href: '/program?departmentId=2',
+            href: '/program/2',
             image:'/bca.jpg'
            
           },
           {
             title: "BBM (Bachelor of Business Management)",
-             href: '/program?departmentId=3',
+             href: '/program/3',
              image:'/bbm.jpg'
            
           }
@@ -475,7 +475,7 @@ const Navbar = () => {
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="absolute inset-0 flex bg-black opacity-20" />
               <p className="text-white text-4xl font-bold uppercase z-10">
-                {pathname.split('/').pop()}
+                Programs
               </p>
             </div>
           </div>

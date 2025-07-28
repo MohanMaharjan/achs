@@ -1,15 +1,12 @@
 'use client'
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useSearchParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import CSIT from "@/components/program/csit";
 
-// Disable static generation and force dynamic rendering
-export const dynamic = 'force-dynamic';
-
 export default function Program() {
-  const searchParams = useSearchParams();
-  const departmentId = searchParams ? searchParams.get('departmentId') : null;
+  const params = useParams();
+  const departmentId = params.id;
   
   const [program, setProgram] = useState(null);
   const [courses, setCourses] = useState([]);
@@ -22,42 +19,39 @@ export default function Program() {
   const defaultDescription = `B.Sc. CSIT (Bachelor of Science in Computer Science and Information Technology) is a four years / 8 Semesters / 126 credit hours course that offers intensive courses in Computer Science and Information Technology.`;
 
   useEffect(() => {
-    // Only run on client side after component mounts
-    if (typeof window !== 'undefined') {
-      const fetchData = async () => {
-        try {
-          setLoading(true);
-          setError(null);
-          
-          if (!departmentId) {
-            throw new Error('Department ID is required');
-          }
-
-          const [programRes, coursesRes] = await Promise.all([
-            fetch(`/api/departments/${departmentId}`),
-            fetch(`/api/courses?departmentId=${departmentId}`)
-          ]);
-
-          if (!programRes.ok || !coursesRes.ok) {
-            throw new Error('Failed to fetch data');
-          }
-
-          const [programData, coursesData] = await Promise.all([
-            programRes.json(),
-            coursesRes.json()
-          ]);
-
-          setProgram(programData.data || programData);
-          setCourses(coursesData.data || coursesData.courses || coursesData || []);
-        } catch (err) {
-          setError(err.message);
-        } finally {
-          setLoading(false);
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        if (!departmentId) {
+          throw new Error('Department ID is required');
         }
-      };
 
-      fetchData();
-    }
+        const [programRes, coursesRes] = await Promise.all([
+          fetch(`/api/departments/${departmentId}`),
+          fetch(`/api/courses?departmentId=${departmentId}`)
+        ]);
+
+        if (!programRes.ok || !coursesRes.ok) {
+          throw new Error('Failed to fetch data');
+        }
+
+        const [programData, coursesData] = await Promise.all([
+          programRes.json(),
+          coursesRes.json()
+        ]);
+
+        setProgram(programData.data || programData);
+        setCourses(coursesData.data || coursesData.courses || coursesData || []);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, [departmentId]);
 
   const toggleSemester = (semester) => {
