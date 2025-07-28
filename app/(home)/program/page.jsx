@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useSearchParams } from 'next/navigation';
 import CSIT from "@/components/program/csit"
-
+// Add this to force dynamic rendering
+export const dynamic = 'force-dynamic';
 const Program = () => {
   const searchParams = useSearchParams();
   const departmentId = searchParams.get('departmentId');
