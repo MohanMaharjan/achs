@@ -130,12 +130,7 @@ export default function LoginPage() {
           </div>
           
           <h2 className="text-3xl font-bold text-gray-800 mb-1">Sign In</h2>
-          <p className="text-gray-600 mb-8">
-            Don't have an account?{" "}
-            <a href="/register" className="text-blue-600 hover:underline">
-              Sign up
-            </a>
-          </p>
+         
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             {/* Email Field */}

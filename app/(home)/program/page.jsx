@@ -1,11 +1,12 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useSearchParams } from 'next/navigation';
-import CSIT from "@/components/program/csit"
-// Add this to force dynamic rendering
+import CSIT from "@/components/program/csit";
+
 export const dynamic = 'force-dynamic';
-const Program = () => {
+
+export default function Program() {
   const searchParams = useSearchParams();
   const departmentId = searchParams.get('departmentId');
   
@@ -17,25 +18,34 @@ const Program = () => {
   const [selectedSyllabus, setSelectedSyllabus] = useState(null);
   const [expandedSemesters, setExpandedSemesters] = useState(new Set());
 
-  // Default description that can be overridden by API data
-  const defaultDescription = `B.Sc. CSIT (Bachelor of Science in Computer Science and Information Technology) is a four years / 8 Semesters / 126 credit hours course that offers intensive courses in Computer Science and Information Technology. This course allows you to specialise in the subject of your choice. During the final semester with lots emphasis on practical based learning, the course gives you ample opportunities to pursue your career anywhere in the world.`;
+  const defaultDescription = `B.Sc. CSIT (Bachelor of Science in Computer Science and Information Technology) is a four years / 8 Semesters / 126 credit hours course that offers intensive courses in Computer Science and Information Technology.`;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
+        setError(null);
         
-        if (departmentId) {
-          const programRes = await fetch(`/api/departments/${departmentId}`);
-          if (!programRes.ok) throw new Error('Failed to fetch program');
-          const programData = await programRes.json();
-          setProgram(programData.data || programData);
-          
-          const coursesRes = await fetch(`/api/courses?departmentId=${departmentId}`);
-          if (!coursesRes.ok) throw new Error('Failed to fetch courses');
-          const coursesData = await coursesRes.json();
-          setCourses(coursesData.data || coursesData.courses || coursesData || []);
+        if (!departmentId) {
+          throw new Error('Department ID is required');
         }
+
+        const [programRes, coursesRes] = await Promise.all([
+          fetch(`/api/departments/${departmentId}`),
+          fetch(`/api/courses?departmentId=${departmentId}`)
+        ]);
+
+        if (!programRes.ok || !coursesRes.ok) {
+          throw new Error('Failed to fetch data');
+        }
+
+        const [programData, coursesData] = await Promise.all([
+          programRes.json(),
+          coursesRes.json()
+        ]);
+
+        setProgram(programData.data || programData);
+        setCourses(coursesData.data || coursesData.courses || coursesData || []);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -58,31 +68,10 @@ const Program = () => {
   };
 
   const semesters = [...new Set(courses?.map(course => course?.semester) || [])].sort((a, b) => a - b);
-  const filteredCourses = courses?.filter(course => course?.semester === selectedSemester) || [];
-
-  // Animation variants
-  const fadeIn = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { duration: 0.5 } }
-  };
-
-  const courseItemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: (index) => ({
-      opacity: 1,
-      y: 0,
-      transition: { delay: index * 0.1 }
-    })
-  };
-
-  const semesterVariants = {
-    hidden: { opacity: 0, height: 0 },
-    visible: { opacity: 1, height: 'auto' }
-  };
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen ">
+      <div className="flex justify-center items-center h-screen">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
       </div>
     );
@@ -90,7 +79,7 @@ const Program = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen  flex items-center justify-center px-4">
+      <div className="min-h-screen flex items-center justify-center px-4">
         <div className="bg-white rounded-xl shadow-lg p-6 max-w-md w-full">
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
             <strong className="font-bold">Error: </strong>
@@ -112,9 +101,9 @@ const Program = () => {
       <section className="container mx-auto px-4 py-12">
         {/* Program Header */}
         <motion.div 
-          initial="hidden"
-          animate="visible"
-          variants={fadeIn}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
           className="bg-white rounded-xl shadow-lg overflow-hidden mb-8"
         >
           <div className="bg-gradient-to-r from-amber-600 to-amber-700 p-8 text-white">
@@ -130,12 +119,11 @@ const Program = () => {
 
         {/* Main Content */}
         <motion.article
-          initial="hidden"
-          animate="visible"
-          variants={fadeIn}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
           className="bg-white rounded-xl shadow-lg overflow-hidden"
         >
-          {/* Semester Accordion */}
           {semesters.length > 0 ? (
             <div className="p-6">
               <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
@@ -172,9 +160,8 @@ const Program = () => {
                     
                     {expandedSemesters.has(semester) && (
                       <motion.div 
-                        initial="hidden"
-                        animate="visible"
-                        variants={semesterVariants}
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
                         transition={{ duration: 0.3 }}
                         className="bg-white"
                       >
@@ -184,14 +171,13 @@ const Program = () => {
                           </h3>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {courses
-                              ?.filter(course => course?.semester === semester)
-                              ?.map((course, index) => (
+                              .filter(course => course?.semester === semester)
+                              .map((course, index) => (
                                 <motion.div
                                   key={course.id || index}
-                                  custom={index}
-                                  initial="hidden"
-                                  animate="visible"
-                                  variants={courseItemVariants}
+                                  initial={{ opacity: 0, y: 20 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  transition={{ delay: index * 0.1 }}
                                   className="bg-gray-50 hover:bg-gray-100 p-4 rounded-lg border border-gray-200 transition-colors"
                                 >
                                   <div className="flex items-start">
@@ -289,6 +275,4 @@ const Program = () => {
       <CSIT program={departmentId}/>
     </div>
   );
-};
-
-export default Program;
+}
